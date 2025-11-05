@@ -105,6 +105,12 @@ fileprivate struct ScrollViewHelper: UIViewRepresentable {
                     }
                 }
             }
+        } else {
+            // 即使已经添加过，也要确保 decelerationRate 保持为 .fast
+            // 因为某些情况下系统可能会重置这个值
+            if let scrollView = context.coordinator.scrollView {
+                scrollView.decelerationRate = .fast
+            }
         }
         
         // 立即更新参数

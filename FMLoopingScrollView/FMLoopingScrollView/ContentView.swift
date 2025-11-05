@@ -14,10 +14,10 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            let items: [Item] = colors.map {
-                Item(color: $0)
-            }
             GeometryReader {
+                let items: [Item] = colors.map {
+                    Item(color: $0)
+                }
                 BannerView(width: $0.size.width, spacing: 10, items: items, controller: scrollController, currentIndex: $currentBannerIndex) { index, item in
                     item.color
                         .clipped()
@@ -39,8 +39,45 @@ struct ContentView: View {
                     print("最新卡片索引：\(newValue)")
                 }
             }
-            .frame(width: UIScreen.main.bounds.width)
+            .frame(width: UIScreen.main.bounds.width, height: 220)
+            
+            HStack(spacing: 30) {
+                // 上一张按钮
+                Button {
+                    scrollController.scrollToPrevious()
+                } label: {
+                    HStack(spacing: 8) {
+                        Image(systemName: "chevron.left")
+                        Text("上一张")
+                    }
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 12)
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color.blue.gradient)
+                    )
+                }
+                
+                // 下一张按钮
+                Button {
+                    scrollController.scrollToNext()
+                } label: {
+                    HStack(spacing: 8) {
+                        Text("下一张")
+                        Image(systemName: "chevron.right")
+                    }
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 12)
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color.blue.gradient)
+                    )
+                }
+            }
         }
-        .padding()
     }
 }
